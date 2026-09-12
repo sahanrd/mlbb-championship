@@ -40,16 +40,63 @@ const healBracketMatches = (matches?: Record<string, any>, teams?: Team[]): Reco
     return teamList.find(t => t.id === m.winnerId) || (m.team1?.id === m.winnerId ? m.team1 : m.team2) || null;
   };
 
+  const getLoserTeam = (matchId: string) => {
+    const m = matches[matchId];
+    if (!m || !m.loserId) return null;
+    return teamList.find(t => t.id === m.loserId) || (m.team1?.id === m.loserId ? m.team1 : m.team2) || null;
+  };
+
   if (matches['SF_M1']) {
     matches['SF_M1'].title = 'Semi-Final 1 (Upper #1 vs Upper #2)';
+    matches['SF_M1'].nextMatchId = 'GF_M1';
+    matches['SF_M1'].nextSlot = 'team1';
+    matches['SF_M1'].loserMatchId = 'TP_M1';
+    matches['SF_M1'].loserSlot = 'team1';
     matches['SF_M1'].team1 = getWinnerTeam('UR2_M1');
     matches['SF_M1'].team2 = getWinnerTeam('UR2_M2');
   }
 
   if (matches['SF_M2']) {
     matches['SF_M2'].title = 'Semi-Final 2 (Upper #3 vs Lower Finalist)';
+    matches['SF_M2'].nextMatchId = 'GF_M1';
+    matches['SF_M2'].nextSlot = 'team2';
+    matches['SF_M2'].loserMatchId = 'TP_M1';
+    matches['SF_M2'].loserSlot = 'team2';
     matches['SF_M2'].team1 = getWinnerTeam('UR2_M3');
     matches['SF_M2'].team2 = getWinnerTeam('LRF_M1');
+  }
+
+  // Renumber Grand Final to Match 19
+  if (matches['GF_M1']) {
+    matches['GF_M1'].matchNumber = 19;
+  }
+
+  // Ensure Match 18 (3rd Place Match) exists
+  if (!matches['TP_M1']) {
+    matches['TP_M1'] = {
+      id: 'TP_M1',
+      matchNumber: 18,
+      title: '3rd Place Match • Decider',
+      stage: 'third_place',
+      roundName: '3rd Place Match',
+      team1: getLoserTeam('SF_M1'),
+      team2: getLoserTeam('SF_M2'),
+      score1: 0,
+      score2: 0,
+      bestOf: 3,
+      winnerId: null,
+      loserId: null,
+      status: 'upcoming',
+      games: [],
+      notes: 'Best of 3 Decider: Semi 1 Loser vs Semi 2 Loser',
+    };
+  } else {
+    matches['TP_M1'].matchNumber = 18;
+    matches['TP_M1'].stage = 'third_place';
+    matches['TP_M1'].title = '3rd Place Match • Decider';
+    matches['TP_M1'].roundName = '3rd Place Match';
+    if (!matches['TP_M1'].team1) matches['TP_M1'].team1 = getLoserTeam('SF_M1');
+    if (!matches['TP_M1'].team2) matches['TP_M1'].team2 = getLoserTeam('SF_M2');
   }
 
   return matches;
@@ -281,7 +328,7 @@ export function useTournament() {
   ) => {
     if (!isAdmin) return;
     setState(prev => {
-      const { updatedMatches, championId } = applyMatchResult(
+      const { updatedMatches, championId, thirdPlaceId } = applyMatchResult(
         prev.matches, 
         matchId, 
         score1, 
@@ -302,6 +349,7 @@ export function useTournament() {
         matches: updatedMatches,
         championTeamId: championId || prev.championTeamId,
         runnerUpTeamId: runnerUpId,
+        thirdPlaceTeamId: thirdPlaceId || prev.thirdPlaceTeamId,
         currentStage: championId ? 'champion' : prev.currentStage,
         history: [
           ...prev.history, 

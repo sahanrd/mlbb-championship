@@ -311,6 +311,19 @@ export const StreamOverlayView: React.FC<StreamOverlayViewProps> = ({
               </div>
             </div>
 
+            {/* 3rd Place Match Card */}
+            {matches['TP_M1'] && (
+              <div className="p-4 rounded-3xl bg-zinc-950/90 border border-orange-500/40 backdrop-blur-xl shadow-xl space-y-2.5">
+                <div className="flex items-center justify-between pb-2 border-b border-amber-500/20">
+                  <span className="text-xs font-black uppercase tracking-wider text-amber-300 font-display">
+                    3rd Place Match (BO3)
+                  </span>
+                  <span className="text-[9px] font-mono font-bold text-amber-400">3RD PLACE</span>
+                </div>
+                <MatchCard match={matches['TP_M1']} onSelectMatch={onSelectMatch} onQuickWinner={onQuickWinner} onQuickWalkover={onQuickWalkover} isAdmin={false} />
+              </div>
+            )}
+
             {/* 🏆 Champion Podium Card */}
             <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-500/20 via-zinc-950 to-amber-500/10 border border-amber-500/40 text-center space-y-3 shadow-2xl backdrop-blur-md">
               <Trophy className="w-12 h-12 text-amber-400 mx-auto animate-pulse" />

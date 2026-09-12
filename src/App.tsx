@@ -50,6 +50,7 @@ export const App: React.FC = () => {
   const presentTeams = state.teams.filter(t => t.checkedIn);
   const championTeam = state.teams.find(t => t.id === state.championTeamId) || null;
   const runnerUpTeam = state.teams.find(t => t.id === state.runnerUpTeamId) || null;
+  const thirdPlaceTeam = state.teams.find(t => t.id === state.thirdPlaceTeamId) || null;
   const selectedMatch = state.selectedMatchId ? state.matches[state.selectedMatchId] || null : null;
 
   const handleTriggerReset = () => {
@@ -249,6 +250,7 @@ export const App: React.FC = () => {
         <ChampionModal
           championTeam={championTeam}
           runnerUpTeam={runnerUpTeam}
+          thirdPlaceTeam={thirdPlaceTeam}
           config={state.config}
           onClose={() => setShowChampionModal(false)}
           onExportPng={handleExportPng}

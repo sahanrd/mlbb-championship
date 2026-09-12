@@ -382,6 +382,8 @@ export function generate11TeamBracket(seededTeams: Team[]): Record<string, Match
       status: 'upcoming',
       nextMatchId: 'GF_M1',
       nextSlot: 'team1', // Winner to Grand Final
+      loserMatchId: 'TP_M1',
+      loserSlot: 'team1', // Loser to 3rd Place Playoff
       games: [],
     },
     'SF_M2': {
@@ -400,13 +402,34 @@ export function generate11TeamBracket(seededTeams: Team[]): Record<string, Match
       status: 'upcoming',
       nextMatchId: 'GF_M1',
       nextSlot: 'team2', // Winner to Grand Final
+      loserMatchId: 'TP_M1',
+      loserSlot: 'team2', // Loser to 3rd Place Playoff
       games: [],
     },
 
-    // GRAND FINAL (1 Match - 2 Finalists)
+    // 3RD PLACE MATCH (Match 18)
+    'TP_M1': {
+      id: 'TP_M1',
+      matchNumber: 18,
+      title: '3rd Place Match • Decider',
+      stage: 'third_place',
+      roundName: '3rd Place Match',
+      team1: null, // Loser Semi 1
+      team2: null, // Loser Semi 2
+      score1: 0,
+      score2: 0,
+      bestOf: 3,
+      winnerId: null,
+      loserId: null,
+      status: 'upcoming',
+      games: [],
+      notes: 'Best of 3 Decider: Semi 1 Loser vs Semi 2 Loser',
+    },
+
+    // GRAND FINAL (Match 19 - 2 Finalists)
     'GF_M1': {
       id: 'GF_M1',
-      matchNumber: 18,
+      matchNumber: 19,
       title: '🏆 GRAND FINAL SHOWDOWN',
       stage: 'grand_final',
       roundName: 'Grand Final',
@@ -438,7 +461,7 @@ export function applyMatchResult(
   score2: number,
   declaredWinnerId?: string | null,
   isWalkover?: boolean
-): { updatedMatches: Record<string, Match>; championId: string | null } {
+): { updatedMatches: Record<string, Match>; championId: string | null; thirdPlaceId?: string | null } {
   const matches = JSON.parse(JSON.stringify(currentMatches)) as Record<string, Match>;
   const match = matches[matchId];
   if (!match) return { updatedMatches: matches, championId: null };
@@ -504,11 +527,15 @@ export function applyMatchResult(
     }
   }
 
-  // Check if Grand Final finished
+  // Check if Grand Final or 3rd Place Match finished
   let championId: string | null = null;
+  let thirdPlaceId: string | null = null;
   if (match.id === 'GF_M1' && winner) {
     championId = winner.id;
   }
+  if (match.id === 'TP_M1' && winner) {
+    thirdPlaceId = winner.id;
+  }
 
-  return { updatedMatches: matches, championId };
+  return { updatedMatches: matches, championId, thirdPlaceId };
 }

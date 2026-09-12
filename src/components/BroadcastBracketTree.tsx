@@ -326,7 +326,7 @@ export const BroadcastBracketTree: React.FC<BroadcastBracketTreeProps> = ({
               </h1>
               <div className="flex items-center justify-center gap-2 mt-1">
                 <span className="px-3 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-400/40 text-[10px] font-mono font-bold text-cyan-300">
-                  11 TEAMS • 18 MATCHES
+                  11 TEAMS • 19 MATCHES
                 </span>
               </div>
             </div>
@@ -534,9 +534,11 @@ export const BroadcastBracketTree: React.FC<BroadcastBracketTreeProps> = ({
             <AbsoluteMatchCard match={matches['SF_M2']} matchLabel="MATCH 17" fallbackT1="UB QUALIFIER 3" fallbackT2="LB FINALIST" accent="purple" onSelectMatch={onSelectMatch} style={{ left: '810px', top: '572px' }} />
 
             {/* -------------------------------------------------------------- */}
-            {/* D. GRAND FINAL (Exact Center Y = 407, top = 375)               */}
+            {/* D. FINALS: GRAND FINAL (Match 19) & 3RD PLACE (Match 18)       */}
             {/* -------------------------------------------------------------- */}
-            <div className="absolute left-[1070px] top-[337px] w-[200px] flex justify-center z-20 pointer-events-none">
+            
+            {/* Grand Final Badge & Card (Center Y = 322, top = 290) */}
+            <div className="absolute left-[1070px] top-[252px] w-[200px] flex justify-center z-20 pointer-events-none">
               <div className="px-4 py-1 rounded-full bg-gradient-to-r from-amber-500/30 via-amber-400/40 to-amber-500/30 border border-amber-400 text-amber-300 font-black text-[11px] uppercase tracking-[0.25em] font-display shadow-glow-amber">
                 GRAND FINAL
               </div>
@@ -544,28 +546,45 @@ export const BroadcastBracketTree: React.FC<BroadcastBracketTreeProps> = ({
 
             <AbsoluteMatchCard 
               match={matches['GF_M1']} 
-              matchLabel="MATCH 18 (BO5)" 
+              matchLabel="MATCH 19 (BO5)" 
               fallbackT1="WINNER SF 1" 
               fallbackT2="WINNER SF 2" 
               accent="gold" 
               onSelectMatch={onSelectMatch} 
-              style={{ left: '1070px', top: '375px' }} 
+              style={{ left: '1070px', top: '290px' }} 
+            />
+
+            {/* 3rd Place Badge & Card (Center Y = 526, top = 494) */}
+            <div className="absolute left-[1070px] top-[456px] w-[200px] flex justify-center z-20 pointer-events-none">
+              <div className="px-4 py-0.5 rounded-full bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-amber-500/20 border border-amber-500/40 text-amber-300 font-black text-[11px] uppercase tracking-[0.25em] font-display whitespace-nowrap shadow-sm">
+                3RD PLACE
+              </div>
+            </div>
+
+            <AbsoluteMatchCard 
+              match={matches['TP_M1']} 
+              matchLabel="MATCH 18 (BO3)" 
+              fallbackT1="LOSER SF 1" 
+              fallbackT2="LOSER SF 2" 
+              accent="gold" 
+              onSelectMatch={onSelectMatch} 
+              style={{ left: '1070px', top: '494px' }} 
             />
 
             {/* -------------------------------------------------------------- */}
             {/* E. 🏆 3D M-WORLD CHAMPION TROPHY SHOWCASE (Center Y = 407)      */}
             {/* -------------------------------------------------------------- */}
-            <div className="absolute left-[1340px] top-[257px] w-[300px] h-[300px] flex flex-col items-center justify-center p-6 rounded-3xl bg-gradient-to-b from-blue-950/40 via-zinc-950/95 to-amber-950/50 border-2 border-amber-400/60 shadow-[0_0_80px_rgba(245,158,11,0.35)] z-20 space-y-3.5 text-center box-border">
+            <div className="absolute left-[1340px] top-[240px] w-[300px] min-h-[320px] flex flex-col items-center justify-center p-6 rounded-3xl bg-gradient-to-b from-blue-950/40 via-zinc-950/95 to-amber-950/50 border-2 border-amber-400/60 shadow-[0_0_80px_rgba(245,158,11,0.35)] z-20 space-y-3 text-center box-border">
               
               {/* Ambient Background Aura */}
               <div className="absolute inset-0 bg-gradient-to-t from-amber-500/30 via-cyan-400/20 to-transparent rounded-3xl blur-2xl pointer-events-none" />
 
               <div className="relative flex flex-col items-center">
-                <div className="relative w-32 h-32 rounded-3xl bg-gradient-to-b from-amber-300/40 via-zinc-900 to-zinc-950 border-2 border-amber-400 flex items-center justify-center shadow-[0_0_50px_rgba(245,158,11,0.6)]">
-                  <Trophy className="w-20 h-20 text-amber-300 drop-shadow-[0_0_30px_rgba(245,158,11,0.9)] animate-pulse" />
+                <div className="relative w-28 h-28 rounded-3xl bg-gradient-to-b from-amber-300/40 via-zinc-900 to-zinc-950 border-2 border-amber-400 flex items-center justify-center shadow-[0_0_50px_rgba(245,158,11,0.6)]">
+                  <Trophy className="w-16 h-16 text-amber-300 drop-shadow-[0_0_30px_rgba(245,158,11,0.9)] animate-pulse" />
                 </div>
 
-                <div className="mt-3 px-8 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-300 to-amber-500 text-zinc-950 font-black text-sm uppercase tracking-[0.3em] font-display shadow-[0_0_30px_rgba(245,158,11,0.9)]">
+                <div className="mt-2.5 px-8 py-1 rounded-xl bg-gradient-to-r from-amber-500 via-amber-300 to-amber-500 text-zinc-950 font-black text-xs uppercase tracking-[0.3em] font-display shadow-[0_0_30px_rgba(245,158,11,0.9)]">
                   CHAMPION
                 </div>
               </div>
@@ -578,10 +597,10 @@ export const BroadcastBracketTree: React.FC<BroadcastBracketTreeProps> = ({
                       TOURNAMENT WINNER
                     </span>
                   </div>
-                  <h4 className="text-lg font-black text-white font-gaming truncate tracking-wide">
+                  <h4 className="text-base font-black text-white font-gaming truncate tracking-wide">
                     {championTeam.name}
                   </h4>
-                  <p className="text-[11px] text-amber-300/90 font-mono font-bold">
+                  <p className="text-[10px] text-amber-300/90 font-mono font-bold">
                     [{championTeam.tag}]
                   </p>
                 </div>
@@ -589,6 +608,18 @@ export const BroadcastBracketTree: React.FC<BroadcastBracketTreeProps> = ({
                 <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-zinc-500">
                   AWAITING GRAND FINAL
                 </span>
+              )}
+
+              {/* 3rd Place Showcase Banner */}
+              {matches['TP_M1']?.winnerId && (
+                <div className="w-full px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-400/40 text-center animate-in zoom-in-95">
+                  <span className="text-[9px] uppercase tracking-wider font-mono font-bold text-amber-300 block">
+                    3RD PLACE WINNER
+                  </span>
+                  <span className="text-xs font-black text-white font-gaming truncate block">
+                    {teams.find(t => t.id === matches['TP_M1'].winnerId)?.name || '3RD PLACE'}
+                  </span>
+                </div>
               )}
 
             </div>
@@ -654,12 +685,16 @@ export const BroadcastBracketTree: React.FC<BroadcastBracketTreeProps> = ({
               <path d="M 750,438 H 780 V 604 H 810" fill="none" stroke="#00F0FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" filter="url(#cyanGlow)" />
               <path d="M 750,740 H 780 V 604 H 810" fill="none" stroke="#10B981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" filter="url(#emeraldGlow)" />
 
-              {/* --- SEMI-FINALS TO GRAND FINAL (EXACT CENTER Y = 407) --- */}
-              <path d="M 1010,210 H 1040 V 407 H 1070" fill="none" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" filter="url(#goldGlow)" />
-              <path d="M 1010,604 H 1040 V 407" fill="none" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" filter="url(#goldGlow)" />
+              {/* --- SEMI-FINALS WINNERS TO GRAND FINAL (Match 19 at y = 322) --- */}
+              <path d="M 1010,210 H 1040 V 322 H 1070" fill="none" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" filter="url(#goldGlow)" />
+              <path d="M 1010,604 H 1040 V 322 H 1070" fill="none" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" filter="url(#goldGlow)" />
 
-              {/* --- GRAND FINAL TO 🏆 CHAMPION TROPHY (EXACT CENTER Y = 407) --- */}
-              <path d="M 1270,407 H 1340" fill="none" stroke="#F59E0B" strokeWidth="3" strokeLinecap="round" filter="url(#goldGlow)" />
+              {/* --- SEMI-FINALS LOSERS TO 3RD PLACE (Match 18 at y = 526) --- */}
+              <path d="M 1010,210 H 1025 V 526 H 1070" fill="none" stroke="#FB923C" strokeWidth="2" strokeDasharray="5 4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M 1010,604 H 1025 V 526 H 1070" fill="none" stroke="#FB923C" strokeWidth="2" strokeDasharray="5 4" strokeLinecap="round" strokeLinejoin="round" />
+
+              {/* --- GRAND FINAL TO 🏆 CHAMPION TROPHY --- */}
+              <path d="M 1270,322 H 1305 V 407 H 1340" fill="none" stroke="#F59E0B" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" filter="url(#goldGlow)" />
               <polygon points="1334,402 1342,407 1334,412" fill="#F59E0B" filter="url(#goldGlow)" />
             </svg>
 
@@ -686,6 +721,8 @@ export const BroadcastBracketTree: React.FC<BroadcastBracketTreeProps> = ({
                 <span>LOWER BRACKET: <strong className="text-purple-300">7</strong></span>
                 <ChevronRight className="w-3.5 h-3.5 text-zinc-600" />
                 <span>SEMI-FINALS: <strong className="text-purple-300">2</strong></span>
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-600" />
+                <span>3RD PLACE: <strong className="text-orange-400">1</strong></span>
                 <ChevronRight className="w-3.5 h-3.5 text-zinc-600" />
                 <span>GRAND FINAL: <strong className="text-amber-300">1</strong></span>
               </div>

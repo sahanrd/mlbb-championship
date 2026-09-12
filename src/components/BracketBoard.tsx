@@ -448,7 +448,7 @@ export const BracketBoard: React.FC<BracketBoardProps> = ({
               </div>
 
               <span className="hidden sm:inline-block px-3 py-1.5 rounded-xl bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-bold">
-                18 Matches Total
+                19 Matches Total
               </span>
             </div>
           </div>
@@ -621,14 +621,25 @@ export const BracketBoard: React.FC<BracketBoardProps> = ({
                 <MatchCard match={matches['SF_M2']} onSelectMatch={onSelectMatch} onQuickWinner={onQuickWinner} onQuickWalkover={onQuickWalkover} isHighlighted={isMatchHighlighted(matches['SF_M2'])} isAdmin={isAdmin} />
               </div>
 
-              {/* Grand Final */}
-              <div className="space-y-3">
-                <div className="px-3 py-1.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold font-mono text-center">
-                  Grand Final (BO5)
+              {/* Finals (Grand Final & 3rd Place) */}
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <div className="px-3 py-1.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold font-mono text-center">
+                    Grand Final (Match 19 • BO5)
+                  </div>
+                  <div className="p-1 rounded-2xl bg-gradient-to-br from-amber-500/40 via-purple-500/30 to-amber-500/40 shadow-glow-gold">
+                    <MatchCard match={matches['GF_M1']} onSelectMatch={onSelectMatch} onQuickWinner={onQuickWinner} onQuickWalkover={onQuickWalkover} isHighlighted={isMatchHighlighted(matches['GF_M1'])} isAdmin={isAdmin} />
+                  </div>
                 </div>
-                <div className="p-1 rounded-2xl bg-gradient-to-br from-amber-500/40 via-purple-500/30 to-amber-500/40 shadow-glow-gold">
-                  <MatchCard match={matches['GF_M1']} onSelectMatch={onSelectMatch} onQuickWinner={onQuickWinner} onQuickWalkover={onQuickWalkover} isHighlighted={isMatchHighlighted(matches['GF_M1'])} isAdmin={isAdmin} />
-                </div>
+
+                {matches['TP_M1'] && (
+                  <div className="space-y-2">
+                    <div className="px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold font-mono text-center flex items-center justify-center gap-1.5">
+                      <span>3rd Place Match (Match 18 • BO3)</span>
+                    </div>
+                    <MatchCard match={matches['TP_M1']} onSelectMatch={onSelectMatch} onQuickWinner={onQuickWinner} onQuickWalkover={onQuickWalkover} isHighlighted={isMatchHighlighted(matches['TP_M1'])} isAdmin={isAdmin} />
+                  </div>
+                )}
               </div>
 
               {/* Champion Podium */}
@@ -870,43 +881,65 @@ export const BracketBoard: React.FC<BracketBoardProps> = ({
               </div>
             </div>
 
-            {/* Grand Final */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between pb-2 border-b border-amber-500/30">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
-                  <Crown className="w-4 h-4 text-amber-400" />
-                  <span>Grand Final Championship</span>
-                </h4>
-                <span className="text-[11px] font-mono font-bold text-amber-400">BO5 CHAMPIONSHIP</span>
+            {/* Grand Final & 3rd Place Playoff */}
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b border-amber-500/30">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                    <Crown className="w-4 h-4 text-amber-400" />
+                    <span>Grand Final Championship (Match 19)</span>
+                  </h4>
+                  <span className="text-[11px] font-mono font-bold text-amber-400">BO5 CHAMPIONSHIP</span>
+                </div>
+
+                <div className="relative p-1 rounded-3xl bg-gradient-to-br from-amber-500/40 via-purple-500/30 to-amber-500/40 shadow-glow-gold">
+                  <div className="rounded-[22px] bg-zinc-950 p-6">
+                    <MatchCard 
+                      match={matches['GF_M1']} 
+                      onSelectMatch={onSelectMatch} 
+                      onQuickWinner={onQuickWinner} 
+                      onQuickWalkover={onQuickWalkover} 
+                      isHighlighted={isMatchHighlighted(matches['GF_M1'])} 
+                      isAdmin={isAdmin}
+                    />
+
+                    {championTeam && (
+                      <div className="mt-6 p-6 rounded-2xl bg-gradient-to-r from-amber-500/20 via-amber-600/10 to-amber-500/20 border border-amber-500/40 text-center animate-pulse-subtle">
+                        <Crown className="w-10 h-10 text-amber-400 mx-auto mb-2" />
+                        <span className="text-xs uppercase tracking-widest font-extrabold text-amber-300 block">
+                          TOURNAMENT CHAMPIONS
+                        </span>
+                        <h3 className="text-3xl font-black text-white font-display mt-1">
+                          {championTeam.name}
+                        </h3>
+                        <p className="text-xs text-zinc-400 mt-1 font-mono">
+                          TAG: [{championTeam.tag}] • CAPTAIN: {championTeam.captain || 'LEAD'}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
 
-              <div className="relative p-1 rounded-3xl bg-gradient-to-br from-amber-500/40 via-purple-500/30 to-amber-500/40 shadow-glow-gold">
-                <div className="rounded-[22px] bg-zinc-950 p-6">
+              {/* 3rd Place Match */}
+              {matches['TP_M1'] && (
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-amber-500/30">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                      <span>3rd Place Match (Match 18)</span>
+                    </h4>
+                    <span className="text-[11px] font-mono font-bold text-amber-400">BO3</span>
+                  </div>
                   <MatchCard 
-                    match={matches['GF_M1']} 
+                    match={matches['TP_M1']} 
                     onSelectMatch={onSelectMatch} 
                     onQuickWinner={onQuickWinner} 
                     onQuickWalkover={onQuickWalkover} 
-                    isHighlighted={isMatchHighlighted(matches['GF_M1'])} 
+                    isHighlighted={isMatchHighlighted(matches['TP_M1'])} 
                     isAdmin={isAdmin}
                   />
-
-                  {championTeam && (
-                    <div className="mt-6 p-6 rounded-2xl bg-gradient-to-r from-amber-500/20 via-amber-600/10 to-amber-500/20 border border-amber-500/40 text-center animate-pulse-subtle">
-                      <Crown className="w-10 h-10 text-amber-400 mx-auto mb-2" />
-                      <span className="text-xs uppercase tracking-widest font-extrabold text-amber-300 block">
-                        TOURNAMENT CHAMPIONS
-                      </span>
-                      <h3 className="text-3xl font-black text-white font-display mt-1">
-                        {championTeam.name}
-                      </h3>
-                      <p className="text-xs text-zinc-400 mt-1 font-mono">
-                        TAG: [{championTeam.tag}] • CAPTAIN: {championTeam.captain || 'LEAD'}
-                      </p>
-                    </div>
-                  )}
                 </div>
-              </div>
+              )}
             </div>
 
           </div>

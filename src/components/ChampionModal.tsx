@@ -16,6 +16,7 @@ import confetti from 'canvas-confetti';
 interface ChampionModalProps {
   championTeam: Team | null;
   runnerUpTeam: Team | null;
+  thirdPlaceTeam?: Team | null;
   config: TournamentConfig;
   onClose: () => void;
   onExportPng: () => void;
@@ -25,6 +26,7 @@ interface ChampionModalProps {
 export const ChampionModal: React.FC<ChampionModalProps> = ({
   championTeam,
   runnerUpTeam,
+  thirdPlaceTeam,
   config,
   onClose,
   onExportPng,
@@ -102,32 +104,46 @@ export const ChampionModal: React.FC<ChampionModalProps> = ({
           <span>CAPTAIN: {championTeam.captain || 'LEAD'}</span>
         </div>
 
-        {/* Podium Runners Up */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto mb-8 text-left">
+        {/* Podium Winners */}
+        <div className={`grid gap-3.5 mx-auto mb-8 text-left ${thirdPlaceTeam ? 'grid-cols-1 sm:grid-cols-3 max-w-2xl' : 'grid-cols-1 sm:grid-cols-2 max-w-lg'}`}>
           
           {/* 1st Place */}
-          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center gap-3.5">
+          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 shrink-0">
               <Crown className="w-5 h-5" />
             </div>
             <div className="min-w-0">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">1st Place • Champions</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">1st Place • Champion</span>
               <h4 className="text-sm font-bold text-white truncate">{championTeam.name}</h4>
-              <span className="text-[11px] text-zinc-400">Tournament Champions</span>
+              <span className="text-[11px] text-zinc-400">Gold Champion</span>
             </div>
           </div>
 
           {/* 2nd Place */}
-          <div className="p-4 rounded-2xl bg-zinc-900/80 border border-white/[0.08] flex items-center gap-3.5">
+          <div className="p-4 rounded-2xl bg-zinc-900/80 border border-white/[0.08] flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-zinc-800 text-zinc-400 shrink-0">
               <Medal className="w-5 h-5" />
             </div>
             <div className="min-w-0">
               <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">2nd Place • Runner-Up</span>
               <h4 className="text-sm font-bold text-white truncate">{runnerUpTeam ? runnerUpTeam.name : 'Finalist'}</h4>
-              <span className="text-[11px] text-zinc-500">Tournament Finalist</span>
+              <span className="text-[11px] text-zinc-500">Silver Medalist</span>
             </div>
           </div>
+
+          {/* 3rd Place */}
+          {thirdPlaceTeam && (
+            <div className="p-4 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-orange-500/20 text-orange-400 shrink-0">
+                <Medal className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-orange-400">3rd Place • Bronze</span>
+                <h4 className="text-sm font-bold text-white truncate">{thirdPlaceTeam.name}</h4>
+                <span className="text-[11px] text-zinc-500">Bronze Medalist</span>
+              </div>
+            </div>
+          )}
 
         </div>
 
