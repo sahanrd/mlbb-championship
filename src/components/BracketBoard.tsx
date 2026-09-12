@@ -589,7 +589,7 @@ export const BracketBoard: React.FC<BracketBoardProps> = ({
                       {matches['LRF_M1'].winnerId ? teams.find(t => t.id === matches['LRF_M1'].winnerId)?.name : 'Awaiting Lower Winner'}
                     </h5>
                     <p className="text-[11px] text-zinc-400">
-                      Advances to Semi-Final 1 to challenge Upper Finalist!
+                      Advances to Semi-Final 2 to challenge Upper Qualifier 3!
                     </p>
                   </div>
                 </div>
@@ -819,7 +819,7 @@ export const BracketBoard: React.FC<BracketBoardProps> = ({
 
                 <div className="p-3.5 rounded-2xl bg-zinc-950/60 border border-white/[0.06] text-xs text-zinc-400">
                   <span className="text-emerald-400 font-bold block mb-1">🌟 Semi-Final Ticket:</span>
-                  Winner of Lower Final qualifies directly for <strong className="text-white">Semi-Final 1</strong> as the 4th Semi-Finalist!
+                  Winner of Lower Final qualifies directly for <strong className="text-white">Semi-Final 2</strong> as the 4th Semi-Finalist!
                 </div>
               </div>
             </div>

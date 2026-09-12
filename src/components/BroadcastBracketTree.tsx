@@ -490,7 +490,7 @@ export const BroadcastBracketTree: React.FC<BroadcastBracketTreeProps> = ({
               match={matches['UR2_M2']} 
               teams={teams}
               label="UB QUALIFIER 2" 
-              subLabel="TO SEMI 2" 
+              subLabel="TO SEMI 1" 
               fallbackText="WINNER MATCH 07" 
               accent="cyan" 
               onSelectMatch={onSelectMatch} 
@@ -530,8 +530,8 @@ export const BroadcastBracketTree: React.FC<BroadcastBracketTreeProps> = ({
             {/* Match 16: center Y = 210 (top = 178)                          */}
             {/* Match 17: center Y = 604 (top = 572)                          */}
             {/* -------------------------------------------------------------- */}
-            <AbsoluteMatchCard match={matches['SF_M1']} matchLabel="MATCH 16" fallbackT1="UB QUALIFIER" fallbackT2="LB FINALIST" accent="purple" onSelectMatch={onSelectMatch} style={{ left: '810px', top: '178px' }} />
-            <AbsoluteMatchCard match={matches['SF_M2']} matchLabel="MATCH 17" fallbackT1="UB QUALIFIER" fallbackT2="UB QUALIFIER" accent="purple" onSelectMatch={onSelectMatch} style={{ left: '810px', top: '572px' }} />
+            <AbsoluteMatchCard match={matches['SF_M1']} matchLabel="MATCH 16" fallbackT1="UB QUALIFIER 1" fallbackT2="UB QUALIFIER 2" accent="purple" onSelectMatch={onSelectMatch} style={{ left: '810px', top: '178px' }} />
+            <AbsoluteMatchCard match={matches['SF_M2']} matchLabel="MATCH 17" fallbackT1="UB QUALIFIER 3" fallbackT2="LB FINALIST" accent="purple" onSelectMatch={onSelectMatch} style={{ left: '810px', top: '572px' }} />
 
             {/* -------------------------------------------------------------- */}
             {/* D. GRAND FINAL (Exact Center Y = 407, top = 375)               */}

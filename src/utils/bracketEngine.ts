@@ -37,9 +37,9 @@ export const DEFAULT_CONFIG: TournamentConfig = {
  *    - Slot 11 (Team 11) gets Round 1 BYE -> Enters UR2_M3(team2) directly!
  * 
  * 2. UPPER ROUND 2 (3 Matches: 6 Teams = 5 Winners + 1 Bye):
- *    - UR2_M1 (Win M1 vs Win M2) -> Win: SF_M1(team1) [Semi Spot 1], Lose: LR1_M3(team2)
- *    - UR2_M2 (Win M3 vs Win M4) -> Win: SF_M2(team1) [Semi Spot 2], Lose: LR1_M4(team1)
- *    - UR2_M3 (Win M5 vs Slot 11 Bye) -> Win: SF_M2(team2) [Semi Spot 3], Lose: LR1_M4(team2)
+ *    - UR2_M1 (Win M1 vs Win M2) -> Win: SF_M1(team1) [Semi 1 Spot 1], Lose: LR1_M3(team2)
+ *    - UR2_M2 (Win M3 vs Win M4) -> Win: SF_M1(team2) [Semi 1 Spot 2], Lose: LR1_M4(team1)
+ *    - UR2_M3 (Win M5 vs Slot 11 Bye) -> Win: SF_M2(team1) [Semi 2 Spot 1], Lose: LR1_M4(team2)
  * 
  * 3. LOWER ROUND 1 (4 Matches: 8 Teams = 5 from UR1 + 3 from UR2):
  *    - LR1_M1 (Lose M1 vs Lose M2) -> Win: LR2_M1(team1), Lose: OUT
@@ -52,11 +52,11 @@ export const DEFAULT_CONFIG: TournamentConfig = {
  *    - LR2_M2 (Win LR1_M3 vs Win LR1_M4) -> Win: LRF_M1(team2), Lose: OUT
  * 
  * 5. LOWER FINAL (1 Match: 2 Teams):
- *    - LRF_M1 (Win LR2_M1 vs Win LR2_M2) -> Win: SF_M1(team2) [Semi Spot 4!], Lose: OUT
+ *    - LRF_M1 (Win LR2_M1 vs Win LR2_M2) -> Win: SF_M2(team2) [Semi 2 Spot 2 (LB Finalist)], Lose: OUT
  * 
  * 6. SEMI-FINALS (2 Matches: 4 Teams = 3 Upper + 1 Lower Finalist):
- *    - SF_M1 (Upper Winner 1 vs Lower Finalist) -> Win: GF_M1(team1), Lose: OUT
- *    - SF_M2 (Upper Winner 2 vs Upper Winner 3) -> Win: GF_M1(team2), Lose: OUT
+ *    - SF_M1 (Upper Winner 1 vs Upper Winner 2) -> Win: GF_M1(team1), Lose: OUT
+ *    - SF_M2 (Upper Winner 3 vs Lower Finalist) -> Win: GF_M1(team2), Lose: OUT
  * 
  * 7. GRAND FINAL (1 Match: 2 Finalists):
  *    - GF_M1 (Winner SF1 vs Winner SF2) -> 👑 CHAMPION!
@@ -203,12 +203,12 @@ export function generate11TeamBracket(seededTeams: Team[]): Record<string, Match
       winnerId: null,
       loserId: null,
       status: 'upcoming',
-      nextMatchId: 'SF_M2',
-      nextSlot: 'team1', // Land in Semi 2 Team 1
+      nextMatchId: 'SF_M1',
+      nextSlot: 'team2', // Land in Semi 1 Team 2 (UB Qualifier 2 vs UB Qualifier 1)
       loserMatchId: 'LR1_M4',
       loserSlot: 'team1', // Drops to Lower R1 Match 4
       games: [],
-      notes: 'Winner qualifies for Semi-Finals (Spot 2/4). Loser to Lower R1.',
+      notes: 'Winner qualifies for Semi-Finals (Semi 1 Spot 2). Loser to Lower R1.',
     },
     'UR2_M3': {
       id: 'UR2_M3',
@@ -225,11 +225,11 @@ export function generate11TeamBracket(seededTeams: Team[]): Record<string, Match
       loserId: null,
       status: 'upcoming',
       nextMatchId: 'SF_M2',
-      nextSlot: 'team2', // Land in Semi 2 Team 2
+      nextSlot: 'team1', // Land in Semi 2 Team 1 (UB Qualifier 3)
       loserMatchId: 'LR1_M4',
       loserSlot: 'team2', // Drops to Lower R1 Match 4
       games: [],
-      notes: 'Winner qualifies for Semi-Finals (Spot 3/4). Loser to Lower R1.',
+      notes: 'Winner qualifies for Semi-Finals (Semi 2 Spot 1). Loser to Lower R1.',
     },
 
     // LOWER ROUND 1 (4 Matches - 8 Teams)
@@ -359,21 +359,21 @@ export function generate11TeamBracket(seededTeams: Team[]): Record<string, Match
       winnerId: null,
       loserId: null,
       status: 'upcoming',
-      nextMatchId: 'SF_M1',
-      nextSlot: 'team2', // Land in Semi 1 Team 2 (Semi Spot 4/4!)
+      nextMatchId: 'SF_M2',
+      nextSlot: 'team2', // Land in Semi 2 Team 2 (Semi Spot 4/4!)
       games: [],
-      notes: 'Winner takes Semi-Final Spot 4! Loser is eliminated.',
+      notes: 'Winner takes Semi-Final Spot 4 (Semi 2 Spot 2)! Loser is eliminated.',
     },
 
     // SEMI-FINALS (2 Matches - 4 Teams)
     'SF_M1': {
       id: 'SF_M1',
       matchNumber: 16,
-      title: 'Semi-Final 1 (Upper #1 vs Lower Finalist)',
+      title: 'Semi-Final 1 (Upper #1 vs Upper #2)',
       stage: 'semi_final',
       roundName: 'Semi-Finals',
       team1: null, // Winner from UR2_M1
-      team2: null, // Winner from Lower Final (LRF_M1)
+      team2: null, // Winner from UR2_M2
       score1: 0,
       score2: 0,
       bestOf: 3,
@@ -387,11 +387,11 @@ export function generate11TeamBracket(seededTeams: Team[]): Record<string, Match
     'SF_M2': {
       id: 'SF_M2',
       matchNumber: 17,
-      title: 'Semi-Final 2 (Upper #2 vs Upper #3)',
+      title: 'Semi-Final 2 (Upper #3 vs Lower Finalist)',
       stage: 'semi_final',
       roundName: 'Semi-Finals',
-      team1: null, // Winner from UR2_M2
-      team2: null, // Winner from UR2_M3
+      team1: null, // Winner from UR2_M3
+      team2: null, // Winner from Lower Final (LRF_M1)
       score1: 0,
       score2: 0,
       bestOf: 3,

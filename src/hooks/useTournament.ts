@@ -16,6 +16,45 @@ const isOldRoster = (teamsList?: Team[]) => {
   return !hasA5CE || !hasNexus;
 };
 
+const healBracketMatches = (matches?: Record<string, any>, teams?: Team[]): Record<string, any> => {
+  if (!matches) return matches || {};
+
+  // 1. Fix nextMatchId & nextSlot routing
+  if (matches['UR2_M2']) {
+    matches['UR2_M2'].nextMatchId = 'SF_M1';
+    matches['UR2_M2'].nextSlot = 'team2';
+  }
+  if (matches['UR2_M3']) {
+    matches['UR2_M3'].nextMatchId = 'SF_M2';
+    matches['UR2_M3'].nextSlot = 'team1';
+  }
+  if (matches['LRF_M1']) {
+    matches['LRF_M1'].nextMatchId = 'SF_M2';
+    matches['LRF_M1'].nextSlot = 'team2';
+  }
+
+  const teamList = teams || [];
+  const getWinnerTeam = (matchId: string) => {
+    const m = matches[matchId];
+    if (!m || !m.winnerId) return null;
+    return teamList.find(t => t.id === m.winnerId) || (m.team1?.id === m.winnerId ? m.team1 : m.team2) || null;
+  };
+
+  if (matches['SF_M1']) {
+    matches['SF_M1'].title = 'Semi-Final 1 (Upper #1 vs Upper #2)';
+    matches['SF_M1'].team1 = getWinnerTeam('UR2_M1');
+    matches['SF_M1'].team2 = getWinnerTeam('UR2_M2');
+  }
+
+  if (matches['SF_M2']) {
+    matches['SF_M2'].title = 'Semi-Final 2 (Upper #3 vs Lower Finalist)';
+    matches['SF_M2'].team1 = getWinnerTeam('UR2_M3');
+    matches['SF_M2'].team2 = getWinnerTeam('LRF_M1');
+  }
+
+  return matches;
+};
+
 const getInitialState = (): TournamentState => {
   if (typeof window !== 'undefined') {
     const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('mlbb_championship_state_v1');
@@ -33,6 +72,8 @@ const getInitialState = (): TournamentState => {
         if (isOldRoster(parsed.teams)) {
           parsed.teams = [...DEFAULT_MLBB_TEAMS];
           parsed.matches = generate11TeamBracket(parsed.teams);
+        } else if (parsed.matches) {
+          parsed.matches = healBracketMatches(parsed.matches, parsed.teams);
         }
 
         return parsed;
@@ -91,6 +132,8 @@ export function useTournament() {
           if (isAdmin) {
             firebaseSync.pushState(cloudState);
           }
+        } else if (cloudState.matches) {
+          cloudState.matches = healBracketMatches(cloudState.matches, cloudState.teams);
         }
         isRemoteUpdate.current = true;
         setState(cloudState);
